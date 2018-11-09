@@ -1,0 +1,39 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.10.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+		mavenLocal()
+		maven { url "https://jitpack.io" }
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'maven'
+
+group = 'eu.h2020.symbiote'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenLocal()
+	mavenCentral()
+	maven { url "https://jitpack.io" }
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	// localMaven
+	//compile('eu.h2020.symbiote:ResourceAccessProxyPluginStarter:0.3.7-SNAPSHOT')
+	// jitpack
+	compile('com.github.symbiote-h2020:ResourceAccessProxyPluginStarter:0.3.7')
+	
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+}
