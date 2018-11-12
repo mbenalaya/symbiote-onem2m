@@ -29,5 +29,6 @@ Test running
 - Run oneM2M simdev application 
 - Publish oneM2M resources on SymbIoTe Core
 - Run oneM2M RAP plugin
+- Access oneM2M symbIoTe resoures after resources discovery. 
 
 
