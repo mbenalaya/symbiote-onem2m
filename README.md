@@ -54,34 +54,7 @@ In our case, a symbIoTe resource is created by sending HTTP POST request contain
 
 We give in the following an example of respectively sensor and actuator resources. 
 ```json
-[{
-       "internalId": "device0__sensor",
-       "pluginId": "RapPluginoneM2M",
-       "accessPolicy": {
-              "policyType": "PUBLIC",
-              "requiredClaims": {}
-       },
-       "filteringPolicy": {
-              "policyType": "PUBLIC",
-              "requiredClaims": {}
-       },
-       "resource": {
-              "@c": ".StationarySensor",
-              "name": "device0__sensor",
-              "description": [
-                      "device 0 sensor"
-              ],
-              "featureOfInterest": {
-                     "name": "enocean sensor for remote control",
-                     "description": [
-                            "enocean sensor_minus_plus"
-                     ],
-                     "hasProperty": [
-                             "Sensor"
-                     ]
-              },
-              "observesProperty": [
-                     "Sensing"[
+[
   {
     "internalId": "device0__sensor",
     "pluginId": "RapPluginoneM2M",
@@ -125,19 +98,6 @@ We give in the following an example of respectively sensor and actuator resource
     }
   }
 ]
-              ],
-              "locatedAt": {
-                    "@c": ".WGS84Location",
-                    "longitude": 1.501385,
-                    "latitude": 43.549468,
-                    "altitude": 15,
-                    "name": "Toulouse",
-                    "description": [
-                            "This is sensinov from Toulouse"
-                    ]
-              },
-    "interworkingServiceURL": "https://test2.sensinov.com"
-  }]
 ```
 
 ### Run oneM2M RAP plugin
