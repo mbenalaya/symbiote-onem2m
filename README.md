@@ -3,9 +3,31 @@ symbIoTe-onem2m
 
 SymbIoTe2oneM2M (symbIoTe oneM2M Extension for cross platform smart residence applications) project objectives are: 
 
-- Make available a complete oneM2M­based IoT platform including both HW & SW. 
+- Make available a complete oneM2M-based IoT platform including both HW & SW. 
 - Develop the interworking between oneM2M and symphony IoT platforms following SymbIoTe federation approach. 
 - Implement a relevant use case showcasing federation with symphony IoT platform for Smart Residence pilot sites.
 
-Test setup
+Test setups
 --------------------
+
+The supported setups are:
+
+- oneM2M paltform : a server which offers a full implementation of oneM2M standard. It supports the different types of interfaces and nodes defined in the standard including Infrastructure Node (IN), Middle Node (MN), Application Service Node (ASN) and Application Dedicated Node (ADN).
+
+- oneM2M Application Dedicated Node : we provide a java application, namely simdev, which plays the role of an ADN. It allows to manage devices by respecting oneM2M standard. For each equipment, we create a resource of type AE. Each resource contains two resources of type container: sensor and actuator. The first container resource makes possible to recover data from the equipment and the second container makes possible to operate it.
+
+- oneM2M CLD components (L1) 
+
+- oneM2M Rap plugin. 
+
+
+Test running
+-------------------
+
+- Run symbIoTe CLD components
+- Run oneM2M sensinov platform
+- Run oneM2M simdev application 
+- Publish oneM2M resources on SymbIoTe Core
+- Run oneM2M RAP plugin
+
+
