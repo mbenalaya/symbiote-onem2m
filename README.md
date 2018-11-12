@@ -56,9 +56,9 @@ We give in the following an example of respectively sensor and actuator resource
 ```json
 [{
        "internalId": "device0__sensor",
-       "pluginId": "RapPluginoneM2M",
-       "accessPolicy": {
-              "policyType": "PUBLIC",
+       "pluginId": "RapPluginoneM2M",
+       "accessPolicy": {
+              "policyType": "PUBLIC",
               "requiredClaims": {}
        },
        "filteringPolicy": {
@@ -81,7 +81,50 @@ We give in the following an example of respectively sensor and actuator resource
                      ]
               },
               "observesProperty": [
-                     "Sensing"
+                     "Sensing"[
+  {
+    "internalId": "device0__sensor",
+    "pluginId": "RapPluginoneM2M",
+    "accessPolicy": {
+      "policyType": "PUBLIC",
+      "requiredClaims": {}
+    },
+    "filteringPolicy": {
+      "policyType": "PUBLIC",
+      "requiredClaims": {}
+    },
+    "resource": {
+      "@c": ".StationarySensor",
+      "name": "device0__sensor",
+      "description": [
+        "device 0 sensor"
+      ],
+      "featureOfInterest": {
+        "name": "device 0 sensor",
+        "description": [
+          "device 0 sensor"
+        ],
+        "hasProperty": [
+          "Sensor"
+        ]
+      },
+      "observesProperty": [
+        "Sensing"
+      ],
+      "locatedAt": {
+        "@c": ".WGS84Location",
+        "longitude": 1.501385,
+        "latitude": 43.549468,
+        "altitude": 15,
+        "name": "Toulouse",
+        "description": [
+          "This is sensinov from Toulouse"
+        ]
+      },
+      "interworkingServiceURL": "https://test2.sensinov.com"
+    }
+  }
+]
               ],
               "locatedAt": {
                     "@c": ".WGS84Location",
