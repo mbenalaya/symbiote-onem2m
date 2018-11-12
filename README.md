@@ -16,7 +16,7 @@ The supported setups are:
 
 - oneM2M Application Dedicated Node : we provide a java application, namely simdev, which plays the role of an ADN. It allows to manage devices by respecting oneM2M standard. For each equipment, we create a resource of type AE. Each resource contains two resources of type container: sensor and actuator. The first container resource makes possible to recover data from the equipment and the second container makes possible to operate it.
 
-- oneM2M CLD components (L1) 
+- oneM2M CLD components (L1 compliance level) 
 
 - oneM2M Rap plugin. 
 
@@ -25,7 +25,14 @@ Test running
 -------------------
 
 - Run symbIoTe CLD components
+
+To configure and start L1 CLD components, please fellow the steps described in the following link: 
+```
+https://github.com/symbiote-h2020/SymbioteCloud/wiki/SymbIoteCloud-from-docker
+```
+
 - Run oneM2M sensinov platform
+
 - Run oneM2M simdev application 
 - Publish oneM2M resources on SymbIoTe Core
 - Run oneM2M RAP plugin
