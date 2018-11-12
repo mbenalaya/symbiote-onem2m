@@ -24,18 +24,19 @@ The supported setups are:
 Test running
 -------------------
 
-- Run symbIoTe CLD components
+## Run symbIoTe CLD components
 
 To configure and start L1 CLD components, please fellow the steps described in the following link: 
 ```
 https://github.com/symbiote-h2020/SymbioteCloud/wiki/SymbIoteCloud-from-docker
 ```
 
-- Run oneM2M sensinov platform
+## Run oneM2M sensinov platform
 
-- Run oneM2M simdev application 
-- Publish oneM2M resources on SymbIoTe Core
-- Run oneM2M RAP plugin
-- Access oneM2M symbIoTe resoures after resources discovery. 
+
+## Run oneM2M simdev application 
+## Publish oneM2M resources on SymbIoTe Core
+## Run oneM2M RAP plugin
+## Access oneM2M symbIoTe resoures after resources discovery. 
 
 
