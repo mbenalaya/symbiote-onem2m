@@ -100,7 +100,71 @@ We give in the following an example of respectively sensor and actuator resource
 ]
 ```
 
+```json
+[
+  {
+    "internalId": "sensor0_actuator",
+    "pluginId": "RapPluginoneM2M",
+    "accessPolicy": {
+      "policyType": "PUBLIC",
+      "requiredClaims": {}
+    },
+    "filteringPolicy": {
+      "policyType": "PUBLIC",
+      "requiredClaims": {}
+    },
+    "resource": {
+      "@c": ".Actuator",
+      "name": "sensor 0 actuator",
+      "description": [
+        "sensor 0 actuator"
+      ],
+      "services": null,
+      "capabilities": [
+        {
+          "name": "OnOffCapability",
+          "parameters": [
+            {
+              "name": "OnOff",
+              "mandatory": true,
+              "datatype": {
+                "@c": ".PrimitiveDatatype",
+                "baseDatatype": "http://www.w3.org/2001/XMLSchema#integer"
+              }
+            }
+          ]
+        }
+      ],
+      "locatedAt": {
+        "@c": ".WGS84Location",
+        "longitude": 1.501385,
+        "latitude": 43.549468,
+        "altitude": 15,
+        "name": "Toulouse",
+        "description": [
+          "This is sensinov from Toulouse"
+        ]
+      },
+      "interworkingServiceURL": "https://test2.sensinov.com"
+    }
+  }
+]
+```
+
 ### Run oneM2M RAP plugin
+
+To implement oneM2M RAP plugin, we chose to work with RAP plugin starter. In fact, the idea is to use it as dependency in implementation that connects platform with SymbIoTe RAP service. Generic parts like RabbitMQ communication with RAP component is implemented in RAP Plugin Starter library. That way a developer does not have to implement complex communication.
+
+Example of project using RAP plugin starter is in following repository 
+```
+https://github.com/symbiote-h2020/RapPluginExample
+```
+
+The oneM2M RAP Plugin source code is available under **RAPPluginoneM2M**
+
 ### Access oneM2M symbIoTe resoures after resources discovery. 
 
-
+The steps to access to oneM2M resources after discovering them are detailed in the following link: 
+```
+https://github.com/symbiote-h2020/SymbioteCloud/wiki/3.4-Accessing-the-resource-and-actuating-and-invoking-service-for-default-(dummy)-resources
+```
