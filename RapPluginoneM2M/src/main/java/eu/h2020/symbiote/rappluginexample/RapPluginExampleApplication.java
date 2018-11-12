@@ -418,9 +418,9 @@ public void executePost(String resourceId, String value) {
 
  
  if (intValue > 0) {
-  url = Config.csePoa + AEName + "?1=1;  
+  url = Config.csePoa + AEName + "?1=1";  
  } else {
-  url = Config.csePoa + AEName + "?1=0; 
+  url = Config.csePoa + AEName + "?1=0"; 
  }
 
  System.out.println("url " + url);
