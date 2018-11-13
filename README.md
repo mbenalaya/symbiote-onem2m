@@ -7,7 +7,7 @@ SymbIoTe2oneM2M (symbIoTe oneM2M Extension for cross platform smart residence ap
 - Develop the interworking between oneM2M and symphony IoT platforms following SymbIoTe federation approach. 
 - Implement a relevant use case showcasing federation with symphony IoT platform for Smart Residence pilot sites.
 
-Test setups
+Setup
 --------------------
 
 The supported setups are:
@@ -21,7 +21,7 @@ The supported setups are:
 - oneM2M Rap plugin. 
 
 
-Test running
+Running
 -------------------
 
 ### Run symbIoTe CLD components
