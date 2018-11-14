@@ -103,7 +103,7 @@ We give in the following an example of respectively sensor and actuator resource
 ```json
 [
   {
-    "internalId": "sensor0__actuator",
+    "internalId": "device0__actuator",
     "pluginId": "RapPluginoneM2M",
     "accessPolicy": {
       "policyType": "PUBLIC",
