@@ -1,8 +1,6 @@
 package eu.h2020.symbiote.rappluginexample;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
@@ -12,27 +10,20 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import java.util.regex.PatternSyntaxException;
+
 
 import obix.Obj;
 import obix.io.ObixDecoder;
 
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.ParseException;
 import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.util.EntityUtils;
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,14 +31,12 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import eu.h2020.symbiote.model.cim.Location;
 import eu.h2020.symbiote.model.cim.Observation;
 import eu.h2020.symbiote.model.cim.ObservationValue;
 import eu.h2020.symbiote.model.cim.Property;
-import eu.h2020.symbiote.model.cim.UnitOfMeasurement;
 import eu.h2020.symbiote.model.cim.WGS84Location;
 import eu.h2020.symbiote.rapplugin.domain.Capability;
 import eu.h2020.symbiote.rapplugin.domain.Parameter;
@@ -56,7 +45,8 @@ import eu.h2020.symbiote.rapplugin.messaging.rap.InvokingServiceListener;
 import eu.h2020.symbiote.rapplugin.messaging.rap.RapPlugin;
 import eu.h2020.symbiote.rapplugin.messaging.rap.RapPluginException;
 import eu.h2020.symbiote.rapplugin.messaging.rap.ReadingResourceListener;
-
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 @SpringBootApplication
 public class RapPluginExampleApplication implements CommandLineRunner {
@@ -75,18 +65,18 @@ public class RapPluginExampleApplication implements CommandLineRunner {
 
    @Override
    public List < Observation > readResourceHistory(String resourceId) {
-    try {
-     createHistory(resourceId);
-    } catch (IOException e1) {
+    if (!(resourceId.isEmpty())){
+     return createHistory(resourceId);
+    } else {
      throw new RapPluginException(404, "Sensor not found.");
     }
    }
 
    @Override
    public Observation readResource(String resourceId) {
-    try {
-     createObservation(resourceId);
-    } catch (IOException e1) {
+	if (!(resourceId.isEmpty())) {
+     return createObservation(resourceId);
+    } else {
      throw new RapPluginException(404, "Sensor not found.");
     }
 
@@ -108,9 +98,9 @@ public class RapPluginExampleApplication implements CommandLineRunner {
 
     System.out.println("value to execute : " + value);
 
-    try {
+    if (!(resourceId.isEmpty())) {
      executeCommand(resourceId, value);
-    } catch (IOException e1) {
+    } else {
      throw new RapPluginException(404, "Actuating entity not found.");
     }
    }
@@ -147,7 +137,6 @@ public class RapPluginExampleApplication implements CommandLineRunner {
   String AEName = parts[0];
   String CntName = parts[1];
 
-
   String url = Config.csePoa + AEName + "/" + CntName + "/DATA/la";
   System.out.println(url);
 
@@ -159,7 +148,7 @@ public class RapPluginExampleApplication implements CommandLineRunner {
   HttpGet request = new HttpGet(url);
   // add request header
   request.addHeader("X-M2M-Origin", Config.originator);
-
+  request.addHeader("X-M2M-Key", Config.key);
   request.addHeader("Content-Type", Config.contentType);
 
   HttpResponse response = null;
@@ -191,13 +180,13 @@ public class RapPluginExampleApplication implements CommandLineRunner {
    response);
 
   String value = "";
+  String status=""; 
   String lt = "";
-  String et = "";
-
+  
+  JSONObject jsonObj1; 
   try {
-
-   JSONObject jsonObj1 = new JSONObject(responseContent);
-   System.out.println("json content  = " + jsonObj1);
+  jsonObj1 = new JSONObject(responseContent);
+  System.out.println("json content  = " + jsonObj1);
 
    //System.out.println(jsonObj1.keys());
    System.out.println(jsonObj1.get("m2m:cin"));
@@ -212,10 +201,10 @@ public class RapPluginExampleApplication implements CommandLineRunner {
    String con = cin.getString("con");
    System.out.println(con);
    Obj obix = ObixDecoder.fromString(con);
-   value = obix.get("value").getStr();
-  }
-  System.out.println(value);
- } catch (JSONException e1) {
+   status=String.valueOf(obix.get("value").getInt()) ;
+   value = ""+status; 
+   System.out.println(value);
+  }  catch (Exception e1) {
   // TODO Auto-generated catch block
   e1.printStackTrace();
  }
@@ -237,7 +226,7 @@ public class RapPluginExampleApplication implements CommandLineRunner {
 
  obsval = new ObservationValue(
   value,
-  new Property("Sensor", "last modified time  " + lt.substring(0, 4) + "-" + lt.substring(4, 6) + "-" + lt.substring(6, 8), Arrays.asList("Sensing")),
+  new Property("number", "last modified time  " + lt.substring(0, 4) + "-" + lt.substring(4, 6) + "-" + lt.substring(6, 8), Arrays.asList("number")),
   null);
 
  ArrayList < ObservationValue > obsList = new ArrayList < > ();
@@ -247,7 +236,7 @@ public class RapPluginExampleApplication implements CommandLineRunner {
 
  try {
   LOG.debug("Observation: \n{}", new ObjectMapper().writeValueAsString(obs));
- } catch (JsonProcessingException e) {
+ } catch (Exception e) {
   LOG.error("Can not convert observation to JSON", e);
  }
 
@@ -262,7 +251,9 @@ public List < Observation > createHistory(String resourceId) {
  String AEName = parts[0];
  String CntName = parts[1];
 
-
+/* if (CntName.equals("actuator")){
+	  CntName="sensor"; 
+ }*/
  String url = Config.csePoa + AEName + "/" + CntName + "/DATA?rcn=4";
  System.out.println(url);
 
@@ -275,7 +266,7 @@ public List < Observation > createHistory(String resourceId) {
  HttpGet request = new HttpGet(url);
  // add request header
  request.addHeader("X-M2M-Origin", Config.originator);
-
+ request.addHeader("X-M2M-Key", Config.key);
  request.addHeader("Content-Type", Config.contentType);
  HttpResponse response = null;
  try {
@@ -308,7 +299,7 @@ public List < Observation > createHistory(String resourceId) {
 
  try {
   jsonObj = new JSONObject(responseContent);
- } catch (JSONException e) {
+ } catch (Exception e) {
   // TODO Auto-generated catch block
   e.printStackTrace();
  }
@@ -319,7 +310,7 @@ public List < Observation > createHistory(String resourceId) {
  try {
   json = (JSONArray) new JSONObject(jsonObj.get("m2m:cnt").toString()).get("cin");
   System.out.println("noow" + json);
- } catch (JSONException e1) {
+ } catch (Exception e1) {
   // TODO Auto-generated catch block
   e1.printStackTrace();
  }
@@ -335,7 +326,7 @@ public List < Observation > createHistory(String resourceId) {
   JSONObject el = null;
   try {
    el = json.getJSONObject(i);
-  } catch (JSONException e) {
+  } catch (Exception e) {
    // TODO Auto-generated catch block
    e.printStackTrace();
   }
@@ -353,7 +344,7 @@ public List < Observation > createHistory(String resourceId) {
 
    System.out.println("\n" + lt);
 
-  } catch (JSONException e) {
+  } catch (Exception e) {
    // TODO Auto-generated catch block
    e.printStackTrace();
   }
@@ -377,7 +368,7 @@ public List < Observation > createHistory(String resourceId) {
 
   obsval = new ObservationValue(
    value,
-   new Property("Sensor", "last modified time  " + lt.substring(0, 4) + "-" + lt.substring(4, 6) + "-" + lt.substring(6, 8), Arrays.asList("Sensing")),
+   new Property("number", "last modified time  " + lt.substring(0, 4) + "-" + lt.substring(4, 6) + "-" + lt.substring(6, 8), Arrays.asList("number")),
    null);
 
 
@@ -388,7 +379,7 @@ public List < Observation > createHistory(String resourceId) {
 
   try {
    LOG.debug("Observation: \n{}", new ObjectMapper().writeValueAsString(obs));
-  } catch (JsonProcessingException e) {
+  } catch (Exception e) {
    LOG.error("Can not convert observation to JSON", e);
   }
 
@@ -413,20 +404,22 @@ public void executePost(String resourceId, String value) {
  String parts[] = resourceId.split("__");
  String AEName = parts[0];
 
+ 
  int intValue = Integer.parseInt(value);
  String url = null;
 
  
  if (intValue > 0) {
-  url = Config.csePoa + AEName + "?1=1";  
+  url = Config.csePoa + AEName + "?0=1";  
  } else {
-  url = Config.csePoa + AEName + "?1=0"; 
+  url = Config.csePoa + AEName + "?0=0"; 
  }
 
  System.out.println("url " + url);
  HttpClient client = HttpClientBuilder.create().build();
  HttpPost post = new HttpPost(url);
  post.addHeader("X-M2M-Origin", Config.originator);
+ post.addHeader("X-M2M-Key", Config.key);
  post.addHeader("Content-Type", Config.contentType);
 
  HttpResponse response = null;
