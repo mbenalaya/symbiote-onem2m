@@ -78,11 +78,11 @@ We give in the following an example of respectively sensor and actuator resource
           "device 0 sensor"
         ],
         "hasProperty": [
-          "Sensor"
+          "number"
         ]
       },
       "observesProperty": [
-        "Sensing"
+        "number"
       ],
       "locatedAt": {
         "@c": ".WGS84Location",
